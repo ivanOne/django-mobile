@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings as django_settings
 
+
 CACHE_LOADER_NAME = 'django_mobile.loader.CachedLoader'
 DJANGO_MOBILE_LOADER = 'django_mobile.loader.Loader'
 
@@ -25,7 +26,7 @@ class defaults(object):
     DEFAULT_MOBILE_FLAVOUR = u'mobile'
     FLAVOURS_TEMPLATE_PREFIX = u''
     FLAVOURS_GET_PARAMETER = u'flavour'
-    FLAVOURS_STORAGE_BACKEND = u'cookie'
+    FLAVOURS_STORAGE_BACKEND = 'djang-mobile.backends.CookieBackend'
     FLAVOURS_COOKIE_KEY = u'flavour'
     FLAVOURS_COOKIE_HTTPONLY = False
     FLAVOURS_SESSION_KEY = u'flavour'

@@ -3,48 +3,13 @@
 __author__ = u'Gregor Müllegger'
 __version__ = '0.7.0.dev1'
 
-
+import importlib
 import threading
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.encoding import smart_str
 from django_mobile.conf import settings
 
 
 _local = threading.local()
-
-
-class SessionBackend(object):
-    def get(self, request, default=None):
-        return request.session.get(settings.FLAVOURS_SESSION_KEY, default)
-
-    def set(self, request, flavour):
-        request.session[settings.FLAVOURS_SESSION_KEY] = flavour
-
-    def save(self, request, response):
-        pass
-
-
-class CookieBackend(object):
-    def get(self, request, default=None):
-        return request.COOKIES.get(settings.FLAVOURS_COOKIE_KEY, default)
-
-    def set(self, request, flavour):
-        request.COOKIES[settings.FLAVOURS_COOKIE_KEY] = flavour
-        request._flavour_cookie = flavour
-
-    def save(self, request, response):
-        if hasattr(request, '_flavour_cookie'):
-            response.set_cookie(
-                smart_str(settings.FLAVOURS_COOKIE_KEY),
-                smart_str(request._flavour_cookie),
-                httponly=settings.FLAVOURS_COOKIE_HTTPONLY)
-
-
-# hijack this dict to add your own backend
-FLAVOUR_STORAGE_BACKENDS = {
-    'cookie': CookieBackend(),
-    'session': SessionBackend(),
-}
 
 
 class ProxyBackend(object):
@@ -54,7 +19,7 @@ class ProxyBackend(object):
             raise ImproperlyConfigured(
                 u"You must specify a FLAVOURS_STORAGE_BACKEND setting to "
                 u"save the flavour for a user.")
-        return FLAVOUR_STORAGE_BACKENDS[backend]
+        return importlib.import_module(settings.FLAVOURS_STORAGE_BACKEND)()
 
     def get(self, *args, **kwargs):
         if settings.FLAVOURS_STORAGE_BACKEND is None:
