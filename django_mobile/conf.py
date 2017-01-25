@@ -26,7 +26,7 @@ class defaults(object):
     DEFAULT_MOBILE_FLAVOUR = u'mobile'
     FLAVOURS_TEMPLATE_PREFIX = u''
     FLAVOURS_GET_PARAMETER = u'flavour'
-    FLAVOURS_STORAGE_BACKEND = 'djang-mobile.backends.CookieBackend'
+    FLAVOURS_STORAGE_BACKEND = 'django-mobile.backends.CookieBackend'
     FLAVOURS_COOKIE_KEY = u'flavour'
     FLAVOURS_COOKIE_HTTPONLY = False
     FLAVOURS_SESSION_KEY = u'flavour'
