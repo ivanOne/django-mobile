@@ -25,10 +25,12 @@ class defaults(object):
     DEFAULT_MOBILE_FLAVOUR = u'mobile'
     FLAVOURS_TEMPLATE_PREFIX = u''
     FLAVOURS_GET_PARAMETER = u'flavour'
+    FLAVOURS_STORAGE_BACKEND = u'cookie'
     FLAVOURS_COOKIE_KEY = u'flavour'
     FLAVOURS_COOKIE_HTTPONLY = False
     FLAVOURS_SESSION_KEY = u'flavour'
     FLAVOURS_TEMPLATE_LOADERS = []
+    FLAVOURS_CROSSDOMAIN = u''
     for loader in django_settings.TEMPLATE_LOADERS:
         if isinstance(loader, (tuple, list)) and loader[0] == CACHE_LOADER_NAME:
             for cached_loader in loader[1]:
