@@ -3,7 +3,7 @@
 __author__ = u'Gregor Müllegger'
 __version__ = '0.7.0.dev1'
 
-import importlib
+from importlib import import_module
 import threading
 from django.core.exceptions import ImproperlyConfigured
 from django_mobile.conf import settings
@@ -16,10 +16,9 @@ class ProxyBackend(object):
     def get_backend(self):
         backend = settings.FLAVOURS_STORAGE_BACKEND
         if not settings.FLAVOURS_STORAGE_BACKEND:
-            raise ImproperlyConfigured(
-                u"You must specify a FLAVOURS_STORAGE_BACKEND setting to "
-                u"save the flavour for a user.")
-        return importlib.import_module(settings.FLAVOURS_STORAGE_BACKEND)()
+            from .backends import CookieBackend
+            return CookieBackend()
+        return backend
 
     def get(self, *args, **kwargs):
         if settings.FLAVOURS_STORAGE_BACKEND is None:
